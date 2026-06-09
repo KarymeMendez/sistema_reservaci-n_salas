@@ -1,0 +1,7 @@
+Django>=5.0
+selenium>=4.0
+behave>=1.2.6
+coverage>=7.0
+flake8>=6.0
+radon>=5.0
+autopep8>=2.0
