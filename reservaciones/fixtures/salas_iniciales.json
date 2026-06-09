@@ -1,0 +1,42 @@
+[
+  {
+    "model": "reservaciones.sala",
+    "pk": 1,
+    "fields": {
+      "nombre": "Sala A",
+      "capacidad": 4,
+      "ubicacion": "Biblioteca, planta baja",
+      "activa": true
+    }
+  },
+  {
+    "model": "reservaciones.sala",
+    "pk": 2,
+    "fields": {
+      "nombre": "Sala B",
+      "capacidad": 8,
+      "ubicacion": "Biblioteca, planta baja",
+      "activa": true
+    }
+  },
+  {
+    "model": "reservaciones.sala",
+    "pk": 3,
+    "fields": {
+      "nombre": "Sala C",
+      "capacidad": 12,
+      "ubicacion": "Biblioteca, planta alta",
+      "activa": true
+    }
+  },
+  {
+    "model": "reservaciones.sala",
+    "pk": 4,
+    "fields": {
+      "nombre": "Sala de mantenimiento",
+      "capacidad": 6,
+      "ubicacion": "Biblioteca, planta alta",
+      "activa": false
+    }
+  }
+]
