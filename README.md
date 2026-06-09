@@ -15,10 +15,11 @@
 
 ## Instalación
 ```bash
-git clone https://github.com/KarymeMendez/sistema_reservaci-n_salas 
+git clone https://github.com/KarymeMendez/sistema_reservaci-n_salas
 cd salas_estudio
+python -m venv .venv
 source .venv/bin/activate        # Linux/Mac
-# .venv\Scripts\activate         # Windows
+.venv\Scripts\activate           # Windows
 pip install -r requirements.txt
 ```
 
@@ -30,7 +31,7 @@ Para producción, crear un archivo .env con:
 
 SECRET_KEY=cambia-esto-por-una-clave-segura
 DEBUG=False
-ALLOWED_HOSTS=tu-dominio.com
+ALLOWED_HOSTS=tu-dominio
 
 ```bash
 export DJANGO_SETTINGS_MODULE=salas_estudio.settings
@@ -54,7 +55,7 @@ Esto crea las 4 salas del sistema y los siguientes usuarios de prueba:
 | admin    | admin123        |
 
 
-http://127.0.0.1:8000/admin/          Panel admin
+
 
 
 
@@ -70,12 +71,15 @@ python manage.py createsuperuser
 python manage.py runserver
 ```
 
-Accede en: http://127.0.0.1:8000/
+Accede App en: http://127.0.0.1:8000/
+Panel admin: http://127.0.0.1:8000/admin/          
 
 ## Ejecutar pruebas unitarias
 
 ```bash
 python manage.py test reservaciones --verbosity=2
+
+Resultado esperado: Ran 49 tests in ~46s — OK
 ```
 
 ## Cobertura de código
