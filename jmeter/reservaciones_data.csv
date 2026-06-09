@@ -1,0 +1,16 @@
+sala_id,fecha,hora_inicio,hora_fin,asistentes,proposito
+1,2027-06-10,08:00,09:00,2,Sesion de estudio grupal para preparacion de examen parcial
+1,2027-06-10,09:00,10:00,3,Reunion de equipo para proyecto de ingenieria de software
+1,2027-06-10,10:00,11:00,1,Preparacion de exposicion final del semestre
+2,2027-06-10,08:00,09:00,4,Sesion grupal de revision de apuntes para examen
+2,2027-06-10,09:00,10:00,5,Trabajo colaborativo de proyecto integrador
+2,2027-06-10,10:00,11:00,6,Practica de presentacion oral para evaluacion
+3,2027-06-10,08:00,09:00,2,Estudio individual en sala compartida reservada
+3,2027-06-10,09:00,10:00,8,Reunion de tesis con asesor y coasesores
+3,2027-06-10,10:00,11:00,3,Revision de avances de investigacion grupal
+1,2027-06-11,08:00,09:00,2,Segunda sesion de estudio grupal para examen
+1,2027-06-11,09:00,10:00,3,Segunda reunion de equipo para proyecto final
+1,2027-06-11,10:00,11:00,1,Segunda preparacion de exposicion para defensa
+2,2027-06-11,08:00,09:00,4,Segunda sesion grupal de revision de apuntes
+2,2027-06-11,09:00,10:00,5,Segundo trabajo colaborativo del proyecto integrador
+2,2027-06-11,10:00,11:00,6,Segunda practica de presentacion oral evaluacion
