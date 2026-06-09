@@ -1,28 +1,36 @@
 # Sistema de Reservación de Salas de Estudio
 
-Aplicación web Django para reservar salas de estudio. Desarrollada con TDD y BDD.
+**Materia:** Pruebas y Mantenimiento de Software  
+**Examen:** Extraordinario  
+**Alumno:** Karyme Idaly Zapien Mendez 
+**Matrícula:** 42201775  
+**Fecha:** 12 de Junio 2026
+
 
 ## Requisitos
-
-- Python 3.10+
+- Python 3.10
 - pip
 - Google Chrome + ChromeDriver (para pruebas BDD con Selenium)
 - Apache JMeter 5.6+ (para pruebas de rendimiento)
 
 ## Instalación
-
 ```bash
-git clone <url-del-repositorio>
+git clone https://github.com/KarymeMendez/sistema_reservaci-n_salas 
 cd salas_estudio
-python -m venv .venv
 source .venv/bin/activate        # Linux/Mac
 # .venv\Scripts\activate         # Windows
 pip install -r requirements.txt
 ```
 
 ## Variables de entorno
+No se requieren variables externas para desarrollo local.
+El proyecto usa SQLite por defecto.
 
-Crea un archivo `.env` o exporta las variables:
+Para producción, crear un archivo .env con:
+
+SECRET_KEY=cambia-esto-por-una-clave-segura
+DEBUG=False
+ALLOWED_HOSTS=tu-dominio.com
 
 ```bash
 export DJANGO_SETTINGS_MODULE=salas_estudio.settings
@@ -43,6 +51,12 @@ Esto crea las 4 salas del sistema y los siguientes usuarios de prueba:
 |----------|-----------------|
 | alumno1  | TestPass123!    |
 | alumno2  | TestPass123!    |
+| admin    | admin123        |
+
+
+http://127.0.0.1:8000/admin/          Panel admin
+
+
 
 Para crear un superusuario de administración:
 
@@ -67,6 +81,8 @@ python manage.py test reservaciones --verbosity=2
 ## Cobertura de código
 
 ```bash
+## Reporte de cobertura
+
 coverage run --source=reservaciones --omit="*/migrations/*,*/management/*" manage.py test reservaciones
 coverage report -m
 coverage html    # genera carpeta htmlcov/
