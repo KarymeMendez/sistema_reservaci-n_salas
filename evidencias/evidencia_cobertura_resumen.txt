@@ -1,0 +1,13 @@
+Name                        Stmts   Miss  Cover   Missing
+---------------------------------------------------------
+reservaciones\__init__.py       0      0   100%
+reservaciones\admin.py         11      0   100%
+reservaciones\apps.py           3      0   100%
+reservaciones\forms.py         42      0   100%
+reservaciones\models.py        33      0   100%
+reservaciones\services.py      82      1    99%   65
+reservaciones\tests.py        334      2    99%   692, 694
+reservaciones\urls.py           3      0   100%
+reservaciones\views.py         35      0   100%
+---------------------------------------------------------
+TOTAL                         543      3    99%
