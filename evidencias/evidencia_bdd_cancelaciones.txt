@@ -1,0 +1,62 @@
+USING RUNNER: behave.runner:Runner
+Característica: Cancelar una reservación (HU-02) # features/cancelaciones.feature:2
+  Como usuario autenticado propietario de una reservación
+  Quiero cancelar una reservación que ya no utilizaré
+  Para liberar la sala y permitir que otro usuario pueda reservarla
+  Característica: Cancelar una reservación (HU-02)  # features/cancelaciones.feature:2
+
+  Escenario: CA-07 Cancelar una reservación vigente con anticipación suficiente  # features/cancelaciones.feature:11
+    Dado que existe una sala activa "Sala B" con capacidad 8                     # features/steps/reservacion_steps.py:15
+    Y el usuario "alumno1" ha iniciado sesión                                    # features/steps/autenticacion_steps.py:25
+Not Found: /favicon.ico
+    Dado que "alumno1" tiene una reservación vigente con inicio en 3 horas       # features/steps/cancelacion_steps.py:40
+    Cuando confirma la cancelación de su reservación                             # features/steps/cancelacion_steps.py:75
+    Entonces el sistema cambia el estado a "CANCELADA"                           # features/steps/cancelacion_steps.py:158
+    Y registra la fecha y hora de cancelación                                    # features/steps/cancelacion_steps.py:165
+    Y muestra un mensaje de cancelación exitosa                                  # features/steps/cancelacion_steps.py:172
+    Y la sala vuelve a estar disponible para ese horario                         # features/steps/cancelacion_steps.py:181
+
+  Escenario: CA-08 Impedir que un usuario cancele una reservación ajena    # features/cancelaciones.feature:19
+    Dado que existe una sala activa "Sala B" con capacidad 8               # features/steps/reservacion_steps.py:15
+    Y el usuario "alumno1" ha iniciado sesión                              # features/steps/autenticacion_steps.py:25
+    Dado que "alumno2" tiene una reservación vigente con inicio en 3 horas # features/steps/cancelacion_steps.py:40
+    Y el usuario "otro_usuario" ha iniciado sesión                         # features/steps/autenticacion_steps.py:25
+    Cuando intenta cancelar la reservación de "alumno2"                    # features/steps/cancelacion_steps.py:108
+    Entonces el sistema rechaza la operación                               # features/steps/cancelacion_steps.py:190
+    Y la reservación permanece en estado "VIGENTE"                         # features/steps/cancelacion_steps.py:198
+
+  Escenario: CA-09 Impedir cancelación fuera del periodo permitido            # features/cancelaciones.feature:26
+    Dado que existe una sala activa "Sala B" con capacidad 8                  # features/steps/reservacion_steps.py:15
+    Y el usuario "alumno1" ha iniciado sesión                                 # features/steps/autenticacion_steps.py:25
+    Dado que "alumno1" tiene una reservación vigente con inicio en 30 minutos # features/steps/cancelacion_steps.py:50
+    Cuando confirma la cancelación de su reservación                          # features/steps/cancelacion_steps.py:75
+    Entonces el sistema rechaza la operación                                  # features/steps/cancelacion_steps.py:190
+    Y muestra un mensaje de periodo de cancelación concluido                  # features/steps/cancelacion_steps.py:205
+
+  Escenario: CA-10 Impedir cancelar nuevamente una reservación ya cancelada  # features/cancelaciones.feature:32
+    Dado que existe una sala activa "Sala B" con capacidad 8                 # features/steps/reservacion_steps.py:15
+    Y el usuario "alumno1" ha iniciado sesión                                # features/steps/autenticacion_steps.py:25
+    Dado que "alumno1" tiene una reservación ya cancelada                    # features/steps/cancelacion_steps.py:60
+    Cuando intenta cancelarla nuevamente                                     # features/steps/cancelacion_steps.py:127
+    Entonces el sistema rechaza la operación                                 # features/steps/cancelacion_steps.py:190
+    Y muestra un mensaje de reservación ya cancelada                         # features/steps/cancelacion_steps.py:213
+
+  Escenario: CA-11 Mantener la trazabilidad de la cancelación              # features/cancelaciones.feature:38
+    Dado que existe una sala activa "Sala B" con capacidad 8               # features/steps/reservacion_steps.py:15
+    Y el usuario "alumno1" ha iniciado sesión                              # features/steps/autenticacion_steps.py:25
+    Dado que "alumno1" tiene una reservación vigente con inicio en 3 horas # features/steps/cancelacion_steps.py:40
+    Cuando confirma la cancelación de su reservación                       # features/steps/cancelacion_steps.py:75
+    Entonces la reservación aparece en el historial con estado "CANCELADA" # features/steps/cancelacion_steps.py:220
+    Y se puede identificar la fecha y hora de cancelación                  # features/steps/cancelacion_steps.py:229
+
+Contenido tabla: Sala Fecha Inicio Fin Asistentes Propósito Estado Acciones
+Sala B 10 de Junio de 2026 02:34 03:34 2 Reservación de prueba para escenario BDD CANCELADA
+09/06/2026 23:34
+Fecha cancelacion BD: 2026-06-10 05:34:23.193442+00:00
+
+[09/Jun/2026 23:34:26,371] - Broken pipe from ('127.0.0.1', 51499)
+[09/Jun/2026 23:34:26,375] - Broken pipe from ('127.0.0.1', 63013)
+1 feature passed, 0 failed, 0 skipped
+5 scenarios passed, 0 failed, 0 skipped
+33 steps passed, 0 failed, 0 skipped
+Took 1min 13.525s

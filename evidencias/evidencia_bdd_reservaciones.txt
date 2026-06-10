@@ -1,0 +1,102 @@
+USING RUNNER: behave.runner:Runner
+Característica: Registrar una reservación (HU-01) # features/reservaciones.feature:2
+  Como usuario autenticado
+  Quiero seleccionar una sala disponible y registrar una reservación
+  Para asegurar el uso exclusivo de la sala durante un periodo determinado
+  Característica: Registrar una reservación (HU-01)  # features/reservaciones.feature:2
+
+  Escenario: CA-01 Registrar una reservación válida                                    # features/reservaciones.feature:12
+    Dado que existe una sala activa "Sala A" con capacidad 4                           # features/steps/reservacion_steps.py:15
+    Y existe una sala inactiva "Sala de mantenimiento"                                 # features/steps/reservacion_steps.py:23
+    Y el usuario "alumno1" ha iniciado sesión                                          # features/steps/autenticacion_steps.py:25
+Not Found: /favicon.ico
+    Dado que no existe otra reservación vigente para "Sala A" en el horario solicitado # features/steps/reservacion_steps.py:31
+    Cuando navega al formulario de nueva reservación                                   # features/steps/reservacion_steps.py:53
+
+URL actual: http://localhost:52885/reservaciones/nueva/
+Título: Nueva reservación
+    Y selecciona la sala "Sala A"                                                      # features/steps/reservacion_steps.py:76
+    Y captura la fecha de mañana                                                       # features/steps/reservacion_steps.py:83
+    Y captura hora de inicio "10:00" y hora de fin "11:00"                             # features/steps/reservacion_steps.py:102
+    Y captura 2 asistentes y propósito "Sesión de estudio grupal para examen"          # features/steps/reservacion_steps.py:113
+    Y envía el formulario de reservación                                               # features/steps/reservacion_steps.py:123
+    Entonces el sistema registra la reservación con estado "VIGENTE"                   # features/steps/reservacion_steps.py:167
+    Y muestra un mensaje de confirmación                                               # features/steps/reservacion_steps.py:176
+    Y la reservación aparece en la lista de reservaciones                              # features/steps/reservacion_steps.py:185
+
+  Escenario: CA-02 Rechazar una reservación con horario traslapado                        # features/reservaciones.feature:24
+    Dado que existe una sala activa "Sala A" con capacidad 4                              # features/steps/reservacion_steps.py:15
+    Y existe una sala inactiva "Sala de mantenimiento"                                    # features/steps/reservacion_steps.py:23
+    Y el usuario "alumno1" ha iniciado sesión                                             # features/steps/autenticacion_steps.py:25
+    Dado que existe una reservación vigente para "Sala A" entre las "10:00" y las "11:00" # features/steps/reservacion_steps.py:36
+    Cuando navega al formulario de nueva reservación                                      # features/steps/reservacion_steps.py:53
+
+URL actual: http://localhost:52885/login/?next=/reservaciones/nueva/
+Título: Iniciar sesión
+Redirigido a login - re-logueando...
+    Y selecciona la sala "Sala A"                                                         # features/steps/reservacion_steps.py:76
+    Y captura la fecha de mañana                                                          # features/steps/reservacion_steps.py:83
+    Y captura hora de inicio "10:30" y hora de fin "11:30"                                # features/steps/reservacion_steps.py:102
+    Y captura 2 asistentes y propósito "Sesión de estudio grupal para examen"             # features/steps/reservacion_steps.py:113
+    Y envía el formulario de reservación                                                  # features/steps/reservacion_steps.py:123
+    Entonces el sistema no registra la nueva reservación                                  # features/steps/reservacion_steps.py:193
+    Y muestra un mensaje de sala no disponible                                            # features/steps/reservacion_steps.py:200
+
+  Escenario: CA-03 Rechazar una reservación que exceda la capacidad           # features/reservaciones.feature:35
+    Dado que existe una sala activa "Sala A" con capacidad 4                  # features/steps/reservacion_steps.py:15
+    Y existe una sala inactiva "Sala de mantenimiento"                        # features/steps/reservacion_steps.py:23
+    Y el usuario "alumno1" ha iniciado sesión                                 # features/steps/autenticacion_steps.py:25
+    Cuando navega al formulario de nueva reservación                          # features/steps/reservacion_steps.py:53
+
+URL actual: http://localhost:52885/reservaciones/nueva/
+Título: Nueva reservación
+    Y selecciona la sala "Sala A"                                             # features/steps/reservacion_steps.py:76
+    Y captura la fecha de mañana                                              # features/steps/reservacion_steps.py:83
+    Y captura hora de inicio "10:00" y hora de fin "11:00"                    # features/steps/reservacion_steps.py:102
+    Y captura 5 asistentes y propósito "Sesión de estudio grupal para examen" # features/steps/reservacion_steps.py:113
+    Y envía el formulario de reservación                                      # features/steps/reservacion_steps.py:123
+    Entonces el sistema no registra la nueva reservación                      # features/steps/reservacion_steps.py:193
+    Y muestra un mensaje de capacidad excedida                                # features/steps/reservacion_steps.py:207
+
+  Escenario: CA-04 Rechazar una fecha anterior al día actual                  # features/reservaciones.feature:45
+    Dado que existe una sala activa "Sala A" con capacidad 4                  # features/steps/reservacion_steps.py:15
+    Y existe una sala inactiva "Sala de mantenimiento"                        # features/steps/reservacion_steps.py:23
+    Y el usuario "alumno1" ha iniciado sesión                                 # features/steps/autenticacion_steps.py:25
+    Cuando navega al formulario de nueva reservación                          # features/steps/reservacion_steps.py:53
+
+URL actual: http://localhost:52885/reservaciones/nueva/
+Título: Nueva reservación
+    Y selecciona la sala "Sala A"                                             # features/steps/reservacion_steps.py:76
+    Y captura una fecha pasada                                                # features/steps/reservacion_steps.py:93
+    Y captura hora de inicio "10:00" y hora de fin "11:00"                    # features/steps/reservacion_steps.py:102
+    Y captura 2 asistentes y propósito "Sesión de estudio grupal para examen" # features/steps/reservacion_steps.py:113
+    Y envía el formulario de reservación                                      # features/steps/reservacion_steps.py:123
+    Entonces el sistema no registra la nueva reservación                      # features/steps/reservacion_steps.py:193
+    Y muestra un mensaje de fecha inválida                                    # features/steps/reservacion_steps.py:214
+
+  Escenario: CA-05 Rechazar una sala inactiva                           # features/reservaciones.feature:55
+    Dado que existe una sala activa "Sala A" con capacidad 4            # features/steps/reservacion_steps.py:15
+    Y existe una sala inactiva "Sala de mantenimiento"                  # features/steps/reservacion_steps.py:23
+    Y el usuario "alumno1" ha iniciado sesión                           # features/steps/autenticacion_steps.py:25
+    Cuando navega al formulario de nueva reservación                    # features/steps/reservacion_steps.py:53
+
+URL actual: http://localhost:52885/reservaciones/nueva/
+Título: Nueva reservación
+    Y intenta reservar la sala inactiva "Sala de mantenimiento"         # features/steps/reservacion_steps.py:133
+    Entonces la sala inactiva no aparece en las opciones del formulario # features/steps/reservacion_steps.py:222
+
+  Escenario: CA-06 Evitar doble reservación ante solicitudes concurrentes              # features/reservaciones.feature:60
+    Dado que existe una sala activa "Sala A" con capacidad 4                           # features/steps/reservacion_steps.py:15
+    Y existe una sala inactiva "Sala de mantenimiento"                                 # features/steps/reservacion_steps.py:23
+    Y el usuario "alumno1" ha iniciado sesión                                          # features/steps/autenticacion_steps.py:25
+    Dado que no existe otra reservación vigente para "Sala A" en el horario solicitado # features/steps/reservacion_steps.py:31
+    Cuando se envían dos solicitudes simultáneas para "Sala A" en el mismo horario     # features/steps/reservacion_steps.py:138
+    Entonces solo una reservación queda registrada como vigente                        # features/steps/reservacion_steps.py:234
+
+[09/Jun/2026 23:03:08,729] - Broken pipe from ('127.0.0.1', 49391)
+[09/Jun/2026 23:03:08,730] - Broken pipe from ('127.0.0.1', 53742)
+[09/Jun/2026 23:03:08,731] - Broken pipe from ('127.0.0.1', 62979)
+1 feature passed, 0 failed, 0 skipped
+6 scenarios passed, 0 failed, 0 skipped
+59 steps passed, 0 failed, 0 skipped
+Took 0min 46.243s

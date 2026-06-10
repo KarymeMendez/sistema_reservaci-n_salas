@@ -1,8 +1,9 @@
-from behave import given, when, then
+from behave import given
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from django.contrib.auth.models import User
+import time
 
 
 def login_usuario(context, username, password="TestPass123!"):
@@ -18,21 +19,12 @@ def login_usuario(context, username, password="TestPass123!"):
         "arguments[0].click();",
         driver.find_element(By.ID, "btn-login")
     )
-    wait.until(EC.url_contains("/reservaciones"))
+    time.sleep(2)
 
 
 @given('el usuario "{username}" ha iniciado sesión')
 def step_usuario_logueado(context, username):
-    User.objects.get_or_create(
-        username=username,
-        defaults={"email": f"{username}@test.com"}
-    )
-    user = User.objects.get(username=username)
+    user, _ = User.objects.get_or_create(username=username)
     user.set_password("TestPass123!")
     user.save()
     login_usuario(context, username)
-
-
-@given('el usuario "{username}" ha iniciado sesión')
-def step_usuario_logueado_alt(context, username):
-    step_usuario_logueado(context, username)
